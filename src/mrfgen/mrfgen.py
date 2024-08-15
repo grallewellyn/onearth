@@ -1243,7 +1243,7 @@ def log_sig_err(mssg, sigevent_url, count_err=True):
 #-------------------------------------------------------------------------------
 # Finished defining subroutines.  Begin main program.
 #-------------------------------------------------------------------------------
-
+log_info_mssg("graceal1 entering main program of mrfgen")
 # Define command line options and args.
 parser=OptionParser(version=versionNumber)
 parser.add_option('-c', '--configuration_filename',

@@ -235,9 +235,12 @@ def log_sig_exit(type, mssg, sigevent_url):
         mssg -- 'message for operations'
         sigevent_url -- Example:  'http://[host]/sigevent/events/create'
     """
+    log_info_mssg("graceal1 in log_sig_exit")
     exit_code = 0
     # Add "Exiting" to mssg.
     mssg=str().join([mssg, ' - Exiting.'])
+    log_info_mssg("graceal1 error message is")
+    log_info_mssg(mssg)
     # Send to sigevent.
     try:
         sent=sigevent(type, mssg, sigevent_url)
