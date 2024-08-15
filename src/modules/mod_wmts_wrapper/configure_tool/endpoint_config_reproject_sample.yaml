@@ -1,0 +1,24 @@
+time_service_uri: "http://onearth-time-service/time_service/time"
+tms_defs_file: "/etc/oe2/tilematrixsets.xml"
+gc_service_uri: "/oe2_gc_service"
+include_layers: 
+  - 'AMSR2_Cloud_Liquid_Water_Day'
+  - 'AMSR2_Cloud_Liquid_Water_Night'
+  - 'BlueMarble_NextGeneration'
+exclude_layers:
+  - 'Reference_Labels'
+  - 'Reference_Labels_15m'
+  - 'Reference_Features'
+  - 'Reference_Features_15m'
+layer_config_source: layer_config.yaml
+base_uri_gc: 'http://some-uri/'
+wmts_service:
+  internal_endpoint: "/var/www/html/wmts"
+  external_endpoint: "/wmts"
+  config_prefix: "oe2-wmts-reproject"
+twms_service:
+  internal_endpoint: "/var/www/html/twms"
+  external_endpoint: "/twms"
+reproject:
+  target_epsg_code: "EPSG:3857"
+  source_gc_uri: "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/1.0.0/WMTSCapabilities.xml"

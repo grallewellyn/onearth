@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="vectorgen_configuration">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="date_of_data"/>
+        <xs:element minOccurs="0" ref="time_of_data"/>
+        <xs:element ref="parameter_name"/>
+        <xs:element minOccurs="0" ref="input_files"/>
+        <xs:element minOccurs="0" ref="input_dir"/>
+        <xs:element ref="output_dir"/>
+        <xs:element ref="working_dir"/>
+        <xs:element minOccurs="0" ref="logfile_dir"/>
+        <xs:element minOccurs="0" ref="output_name"/>
+        <xs:element ref="output_format"/>
+        <xs:element minOccurs="0" ref="target_epsg"/>
+        <xs:element minOccurs="0" ref="source_epsg"/>
+        <xs:element ref="target_x"/>
+        <xs:element minOccurs="0" ref="target_y"/>
+        <xs:element minOccurs="0" ref="target_extents"/>
+        <xs:element minOccurs="0" ref="tile_size"/>
+        <xs:element minOccurs="0" ref="overview_levels"/>
+        <xs:element minOccurs="0" ref="feature_id"/>
+        <xs:element minOccurs="0" ref="feature_reduce_rate"/>
+        <xs:element minOccurs="0" ref="cluster_reduce_rate"/>
+        <xs:element minOccurs="0" ref="buffer_size"/>
+        <xs:element minOccurs="0" ref="email_server"/>
+        <xs:element minOccurs="0" ref="email_recipient"/>
+        <xs:element minOccurs="0" ref="feature_filters"/>
+        <xs:element minOccurs="0" ref="identifier"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="date_of_data" type="xs:integer"/>
+  <xs:element name="time_of_data" type="xs:integer"/>
+  <xs:element name="parameter_name" type="xs:NCName"/>
+  <xs:element name="input_files">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" minOccurs="0" ref="file"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="file" type="xs:string"/>
+  <xs:element name="input_dir" nillable="true" type="xs:string"/>
+  <xs:element name="output_dir" type="xs:string"/>
+  <xs:element name="working_dir" type="xs:string"/>
+  <xs:element name="logfile_dir" nillable="true" type="xs:string"/>
+  <xs:element name="output_name" type="xs:string"/>
+  <xs:element name="output_format">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="ESRI Shapefile"/>
+        <xs:enumeration value="MVT-MRF"/>
+        <xs:enumeration value="GeoJSON"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element default="4326" name="target_epsg" type="xs:integer"/>
+  <xs:element default="4326" name="source_epsg" type="xs:integer"/>
+  <xs:element name="target_x" type="xs:integer"/>
+  <xs:element name="target_y" nillable="true" type="xs:integer"/>
+  <xs:element name="target_extents" nillable="true" type="xs:string"/>
+  <xs:element name="overview_levels" nillable="true" type="xs:string"/>
+  <xs:element name="tile_size" nillable="true" type="xs:integer"/>
+  <xs:element default="UID" name="feature_id">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="create" type="xs:boolean" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element default="0" name="feature_reduce_rate" type="xs:float"/>
+  <xs:element default="0" name="cluster_reduce_rate" type="xs:float"/>
+  <xs:element default="5" name="buffer_size">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:float">
+          <xs:attribute name="edges" type="xs:boolean" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="feature_filters">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="filter_block" type="filterType" maxOccurs="unbounded" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="overview_filters">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="filter_block" type="filterType" maxOccurs="unbounded" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="identifier" nillable="true" type="xs:string"/>
+
+  <xs:complexType name="filterType">
+    <xs:sequence>
+      <xs:element name="equals" type="stringFilterType" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element name="notEquals" type="stringFilterType" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element name="ge" type="numberFilterType" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element name="gt" type="numberFilterType" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element name="le" type="numberFilterType" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element name="lt" type="numberFilterType" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="logic" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="OR"/>
+          <xs:enumeration value="AND"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="zoom" type="xs:int" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="stringFilterType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="value" type="xs:string" use="optional"/>
+        <xs:attribute name="regexp" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="numberFilterType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="value" type="xs:float" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:element name="email_server" nillable="true" type="xs:string"/>
+  <xs:element name="email_recipient" nillable="true" type="xs:string"/>
+</xs:schema>

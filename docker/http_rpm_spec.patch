@@ -1,0 +1,22 @@
+--- a/SPECS/httpd.spec  2021-12-09 18:09:09.000000000 +0000
++++ b/SPECS/httpd.spec  2021-12-09 18:34:43.980835000 +0000
+@@ -243,6 +243,9 @@
+ Patch240: httpd-2.4.6-CVE-2020-1934.patch
+ Patch241: httpd-2.4.6-CVE-2021-40438.patch
+
++Patch900: mod_proxy_http.patch
++Patch901: proxypass_nomain_flag.patch
++
+ License: ASL 2.0
+ Group: System Environment/Daemons
+ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
+@@ -507,6 +510,9 @@
+ %patch240 -p1 -b .cve1934
+ %patch241 -p1 -b .cve40438
+
++%patch900 -p1
++%patch901 -p1
++
+ # Patch in the vendor string and the release string
+ sed -i '/^#define PLATFORM/s/Unix/%{vstring}/' os/unix/os.h
+ sed -i 's/@RELEASE@/%{release}/' server/core.c
